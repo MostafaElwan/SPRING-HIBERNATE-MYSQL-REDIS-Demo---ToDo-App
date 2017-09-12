@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +31,7 @@ import com.elwan.todo.service.impl.UserServiceImpl;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @EnableTransactionManagement
-@ComponentScan("com.spring.todo")
+@ComponentScan("com.elwan.todo")
 public class AppConfig {
 	
 	@Bean
@@ -62,11 +61,6 @@ public class AppConfig {
 		ds.setPassword(ConfigManager.getInstance().get(AppConstant.Keys.MYSQL_PWD));
 		return ds;
 	}
-	
-//	@Bean
-//	public DataSourceTransactionManager transactionManager() {
-//		;
-//	}
 	
 	@Bean
 	public AbstractPlatformTransactionManager transactionManager() {

@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.elwan.todo</groupId>
-	<artifactId>todo-demo</artifactId>
+	<artifactId>com.elwan.todo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>com.elwan.todo</name>
+	<name>com.spring.todo</name>
 	<url>http://maven.apache.org</url>
 
 	<dependencies>
