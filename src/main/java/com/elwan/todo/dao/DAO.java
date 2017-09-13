@@ -14,6 +14,6 @@ public interface DAO<T> {
 	
 	void update(T t) throws APIException;
 	
-	void delete(long id) throws APIException;
+	void delete(T t) throws APIException;
 
 }
