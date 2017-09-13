@@ -21,34 +21,38 @@ public class RedisUserDAOImpl extends AbstractRedisDAO<User> implements UserDAO 
 
 	@Override
 	public List<User> all() throws APIException {
+		Jedis j = getResource();
 		try {
 			List<User> uList = new ArrayList<User>();
-			Jedis j = getJedis();
 			Map<String, String> props = j.hgetAll("USER:*");
 			BeanUtilsBean.getInstance().populate(uList, props);
 			return uList;
 		} catch(Exception e) {
 			throw new APIException("Error while fetching all users", e);
+		} finally {
+			returnResource(j);
 		}
 	}
 
 	@Override
 	public User get(long id) throws APIException {
+		Jedis j = getResource();
 		try {
 			User u = new User();
-			Jedis j = getJedis();
 			Map<String, String> props = j.hgetAll(String.format("USER:%s", id));
 			BeanUtilsBean.getInstance().populate(u, props);
 			return u;
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while fetching user [%s]", id), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 
 	@Override
 	public long create(User u) throws APIException {
+		Jedis j = getResource();
 		try {
-			Jedis j = getJedis();
 			long userId = j.incr(AppConstant.Redis.Keys.USER_ID);
 			u.setId(userId);
 			Map<String, String> props = BeanUtilsBean.getInstance().describe(u);
@@ -63,6 +67,8 @@ public class RedisUserDAOImpl extends AbstractRedisDAO<User> implements UserDAO 
 			return userId;
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while creating user [%s]", u.getUsername()), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 
@@ -80,9 +86,9 @@ public class RedisUserDAOImpl extends AbstractRedisDAO<User> implements UserDAO 
 
 	@Override
 	public User get(String username, String password) throws APIException {
+		Jedis j = getResource();
 		try {
 			User u = new User();
-			Jedis j = getJedis();
 			String userId = j.get(String.format("%s:%s", username, password));
 			AppUtil.throwExceptionIfNull(userId, "Invlid username or password !");
 			Map<String, String> props = j.hgetAll(String.format("USER:%s", userId));
@@ -90,6 +96,8 @@ public class RedisUserDAOImpl extends AbstractRedisDAO<User> implements UserDAO 
 			return u;
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while fetching user [%s]", username), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 

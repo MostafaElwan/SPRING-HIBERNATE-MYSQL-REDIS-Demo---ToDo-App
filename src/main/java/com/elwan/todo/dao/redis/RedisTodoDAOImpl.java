@@ -28,21 +28,23 @@ public class RedisTodoDAOImpl extends AbstractRedisDAO<Todo> implements TodoDAO 
 
 	@Override
 	public Todo get(long id) throws APIException {
+		Jedis j = getResource();
 		try {
 			Todo todo = new Todo();
-			Jedis j = getJedis();
 			Map<String, String> props = j.hgetAll(String.format("TODO:%s", id));
 			BeanUtilsBean.getInstance().populate(todo, props);
 			return todo;
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while fetching TODO [%s]", id), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 
 	@Override
 	public long create(Todo todo) throws APIException {
+		Jedis j = getResource();
 		try {
-			Jedis j = getJedis();
 			long todoId = j.incr(AppConstant.Redis.Keys.TODO_ID);
 			todo.setId(todoId);
 			
@@ -54,6 +56,8 @@ public class RedisTodoDAOImpl extends AbstractRedisDAO<Todo> implements TodoDAO 
 			return todoId;
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while creating TODO [%s]", todo.getTitle()), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 
@@ -65,24 +69,25 @@ public class RedisTodoDAOImpl extends AbstractRedisDAO<Todo> implements TodoDAO 
 
 	@Override
 	public void delete(Todo todo) throws APIException {
+		Jedis j = getResource();
 		try {
-			Jedis j = getJedis();
-			
 			Transaction t = j.multi();
 			t.srem(String.format("USER-TODO-LIST:%s", todo.getUser().getId()), String.valueOf(todo.getId()));
 			t.del(String.format("TODO:%s", todo.getId()));
 			t.exec();
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while creating TODO [%s]", todo.getTitle()), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 
 	@Override
 	public List<Todo> all(User user) throws APIException {
 		List<Todo> todoList = new ArrayList<Todo>();
+		Jedis j = getResource();
 		try {
 			Todo todo = null;
-			Jedis j = getJedis();
 			Set<String> todoIds = j.smembers(String.format("USER-TODO-LIST:%s", user.getId()));
 			for(String todoId : todoIds) {
 				todo = new Todo();
@@ -94,6 +99,8 @@ public class RedisTodoDAOImpl extends AbstractRedisDAO<Todo> implements TodoDAO 
 			return todoList;
 		} catch(Exception e) {
 			throw new APIException(String.format("Error while fetching todo list of user [%s]", user.getId()), e);
+		} finally {
+			returnResource(j);
 		}
 	}
 

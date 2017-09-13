@@ -14,8 +14,12 @@ public class AbstractRedisDAO<T> {
 		this.jp = jp;
 	}
 	
-	protected Jedis getJedis() {
+	protected Jedis getResource() {
 		return jp.getResource();
+	}
+	
+	protected void returnResource(Jedis j) {
+		j.close();
 	}
 	
 }
