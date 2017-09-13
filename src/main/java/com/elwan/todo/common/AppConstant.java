@@ -29,14 +29,17 @@ public abstract class AppConstant {
 	}
 	
 	public class Hibernate {
-		
 		public class Cache {
-			
 			public class Region {
-				
 				public static final String TODO = "todo";
-				
 			}	
+		}
+	}
+	
+	public class Redis {
+		public class Keys {
+			public static final String USER_ID = "USER_ID";
+			public static final String TODO_ID = "TODO_ID";
 		}
 	}
 
