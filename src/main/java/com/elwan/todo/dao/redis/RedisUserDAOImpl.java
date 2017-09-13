@@ -10,13 +10,14 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
+import com.elwan.todo.common.AppConstant;
 import com.elwan.todo.common.AppUtil;
 import com.elwan.todo.dao.UserDAO;
 import com.elwan.todo.exception.APIException;
 import com.elwan.todo.model.User;
 
 @Component
-public class RedisUserDAOImpl extends AbstractRedisDAO implements UserDAO {
+public class RedisUserDAOImpl extends AbstractRedisDAO<User> implements UserDAO {
 
 	@Override
 	public List<User> all() throws APIException {
@@ -27,7 +28,7 @@ public class RedisUserDAOImpl extends AbstractRedisDAO implements UserDAO {
 			BeanUtilsBean.getInstance().populate(uList, props);
 			return uList;
 		} catch(Exception e) {
-			throw new APIException("Error while creating USER", e);
+			throw new APIException("Error while fetching all users", e);
 		}
 	}
 
@@ -40,25 +41,28 @@ public class RedisUserDAOImpl extends AbstractRedisDAO implements UserDAO {
 			BeanUtilsBean.getInstance().populate(u, props);
 			return u;
 		} catch(Exception e) {
-			throw new APIException("Error while creating USER", e);
+			throw new APIException(String.format("Error while fetching user [%s]", id), e);
 		}
 	}
 
 	@Override
 	public long create(User u) throws APIException {
 		try {
-			long userId = getUserId();
-			u.setId(userId);
 			Jedis j = getJedis();
+			long userId = j.incr(AppConstant.Redis.Keys.USER_ID);
+			u.setId(userId);
 			Map<String, String> props = BeanUtilsBean.getInstance().describe(u);
 			props.remove("todoList");
+			props.remove("uniqueId");
+			props.remove("salt");
+			
 			Transaction t = j.multi();
 			t.set(String.format("%s:%s", u.getUsername(), u.getPassword()), String.valueOf(userId));
 			t.hmset(String.format("USER:%s", userId), props);
 			t.exec();
 			return userId;
 		} catch(Exception e) {
-			throw new APIException("Error while creating USER", e);
+			throw new APIException(String.format("Error while creating user [%s]", u.getUsername()), e);
 		}
 	}
 
@@ -69,7 +73,7 @@ public class RedisUserDAOImpl extends AbstractRedisDAO implements UserDAO {
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(User u) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -85,7 +89,7 @@ public class RedisUserDAOImpl extends AbstractRedisDAO implements UserDAO {
 			BeanUtilsBean.getInstance().populate(u, props);
 			return u;
 		} catch(Exception e) {
-			throw new APIException("Error while creating USER", e);
+			throw new APIException(String.format("Error while fetching user [%s]", username), e);
 		}
 	}
 
