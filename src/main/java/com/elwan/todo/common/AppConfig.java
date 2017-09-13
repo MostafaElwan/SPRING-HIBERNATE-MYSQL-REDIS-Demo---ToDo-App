@@ -20,7 +20,6 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
 
-import com.elwan.todo.dao.redis.RedisIndexesDAO;
 import com.elwan.todo.model.Todo;
 import com.elwan.todo.model.User;
 import com.elwan.todo.service.TodoService;
@@ -72,20 +71,6 @@ public class AppConfig {
 	}
 	
 	@Bean
-	public RedisIndexesDAO redisIndexesDAO() {
-		return new RedisIndexesDAO();
-	}
-
-	@Bean
-	public JedisPool jedisPool() {
-		return new JedisPool(new JedisPoolConfig(), 
-				ConfigManager.getInstance().get(AppConstant.Keys.REDIS_IP), 
-				ConfigManager.getInstance().getInt(AppConstant.Keys.REDIS_PORT), 
-				Protocol.DEFAULT_TIMEOUT, 
-				ConfigManager.getInstance().get(AppConstant.Keys.REDIS_PWD));
-	}
-	
-	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
 		lsfb.setDataSource(dataSource());
@@ -105,4 +90,14 @@ public class AppConfig {
 		
 		return lsfb;
 	}
+	
+	@Bean
+	public JedisPool jedisPool() {
+		return new JedisPool(new JedisPoolConfig(), 
+				ConfigManager.getInstance().get(AppConstant.Keys.REDIS_IP), 
+				ConfigManager.getInstance().getInt(AppConstant.Keys.REDIS_PORT), 
+				Protocol.DEFAULT_TIMEOUT, 
+				ConfigManager.getInstance().get(AppConstant.Keys.REDIS_PWD));
+	}
+	
 }
