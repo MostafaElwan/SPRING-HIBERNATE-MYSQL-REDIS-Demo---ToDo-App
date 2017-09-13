@@ -61,7 +61,7 @@ public class MysqlTodoDAOImpl extends AbstractMysqlDAO implements TodoDAO {
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(Todo todo) {
 		// TODO Auto-generated method stub
 		
 	}

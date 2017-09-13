@@ -63,7 +63,7 @@ public class HibernateTodoDAOImpl extends AbstractHibernateDAO implements TodoDA
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(Todo todo) {
 		// TODO Auto-generated method stub
 		
 	}

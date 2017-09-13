@@ -79,13 +79,13 @@ public class HibernateUserDAOImpl extends AbstractHibernateDAO implements UserDA
 	}
 
 	@Override
-	public void update(User t) {
+	public void update(User u) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(User u) {
 		// TODO Auto-generated method stub
 		
 	}

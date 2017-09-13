@@ -75,7 +75,7 @@ public class MysqlUserDAOImpl extends AbstractMysqlDAO implements UserDAO {
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(User u) {
 		// TODO Auto-generated method stub
 		
 	}
