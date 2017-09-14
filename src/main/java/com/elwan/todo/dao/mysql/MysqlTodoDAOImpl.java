@@ -19,11 +19,11 @@ import com.elwan.todo.model.User;
 @Component
 public class MysqlTodoDAOImpl extends AbstractMysqlDAO implements TodoDAO {
 	
-	private static final String ALL_OWNER = "select * from todos where todo_owner_id = ?";
+	private static final String ALL_OWNER = "select * from todo_list where todo_owner_id = ?";
 	
-	private static final String INSERT = "insert into todos (todo_title, todo_desc, todo_owner_id) values (?, ?, ?)";
+	private static final String INSERT = "insert into todo_list (todo_title, todo_desc, todo_owner_id) values (?, ?, ?)";
 	
-	private static final String UPDATE = "update todos set todo_title = ?, todo_desc = ? where todo_id = ?"; 
+	private static final String UPDATE = "update todo_list set todo_title = ?, todo_desc = ? where todo_id = ?"; 
 	
 	@Override
 	public List<Todo> all() {

@@ -1,13 +1,9 @@
 package com.elwan.todo.dao.hibernate;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
 import com.elwan.todo.common.AppUtil;
@@ -67,8 +63,6 @@ public class HibernateUserDAOImpl extends AbstractHibernateDAO implements UserDA
 	public long create(final User u) throws APIException {
 		Session s = sessionFactory.openSession();
 		try {
-			u.setUniqueId(UUID.randomUUID().toString().substring(0,10));
-			u.setSalt(UUID.randomUUID().toString().substring(0,10));
 			long userId = (Long) s.save(u);
 			return userId;
 		} catch(Exception e) {

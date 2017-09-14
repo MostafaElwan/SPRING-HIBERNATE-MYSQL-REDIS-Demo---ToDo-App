@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -19,9 +18,9 @@ import com.elwan.todo.model.User;
 @Component
 public class MysqlUserDAOImpl extends AbstractMysqlDAO implements UserDAO {
 	
-	private static final String GET = "select * from users where username = ? and encrypted_password = ?";
+	private static final String GET = "select * from users where username = ? and password = ?";
 	
-	private static final String INSERT = "insert into users(name, email, username, encrypted_password, unique_id, salt) values (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT = "insert into users(fullname, email, username, password) values (?, ?, ?, ?)";
 	
 	@Override
 	public List<User> all() {
@@ -59,8 +58,6 @@ public class MysqlUserDAOImpl extends AbstractMysqlDAO implements UserDAO {
 		        ps.setString(index++, u.getEmail());
 		        ps.setString(index++, u.getUsername());
 		        ps.setString(index++, u.getPassword());
-		        ps.setString(index++, UUID.randomUUID().toString().substring(0,10));
-		        ps.setString(index++, UUID.randomUUID().toString().substring(0,10));
 		        return ps;
 		    }
 		}, holder);

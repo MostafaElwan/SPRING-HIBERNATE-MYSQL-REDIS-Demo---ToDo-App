@@ -21,7 +21,7 @@ import com.elwan.todo.common.AppConstant;
 
 @Data
 @Entity
-@Table(name = "todos")
+@Table(name = "todo_list")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region=AppConstant.Hibernate.Cache.Region.TODO)
 public class Todo {
 	
@@ -38,7 +38,6 @@ public class Todo {
 	@Id
 	@Column(name = "todo_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private long id;
 	
 	@Column(name = "todo_title")

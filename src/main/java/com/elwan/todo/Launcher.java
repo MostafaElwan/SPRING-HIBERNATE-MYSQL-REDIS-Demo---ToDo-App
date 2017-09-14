@@ -23,14 +23,14 @@ public class Launcher {
     		
             TodoDelegate d = config.getBean(TodoDelegate.class);
             
-            int counter = 62;
+            int counter = 63;
             
             List<User> users = d.getAllUsers();
             
             User u = new User();
-            u.setUsername("melwan");
+            u.setUsername("melwan" + counter);
             u.setPassword("melwan" + counter);
-            u.setName("Mostafa Elwan");
+            u.setName("Mostafa Elwan" + counter);
             u.setEmail("mostafa.elwan"+counter+"@etisalat.com");
             
             d.createUser(u);

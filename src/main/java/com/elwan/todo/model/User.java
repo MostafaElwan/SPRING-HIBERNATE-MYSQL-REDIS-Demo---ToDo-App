@@ -5,13 +5,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -29,26 +26,26 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "user_id")
 	private long id;
 	
 	@Column(name = "username")
 	private String username;
 	
-	@Column(name = "encrypted_password")
+	@Column(name = "password")
 	private String password;
 	
-	@Column(name = "name")
+	@Column(name = "fullname")
 	private String name;
 	
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "unique_id")
-	private String uniqueId;
-	
-	@Column(name = "salt")
-	private String salt;
+//	@Column(name = "unique_id")
+//	private String uniqueId;
+//	
+//	@Column(name = "salt")
+//	private String salt;
 	
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
 	private List<Todo> todoList;
