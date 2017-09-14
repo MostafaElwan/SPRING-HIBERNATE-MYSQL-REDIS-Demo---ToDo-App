@@ -23,7 +23,7 @@ public class Launcher {
     		
             TodoDelegate d = config.getBean(TodoDelegate.class);
             
-            int counter = 60;
+            int counter = 62;
             
             List<User> users = d.getAllUsers();
             

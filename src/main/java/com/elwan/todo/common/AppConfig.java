@@ -66,8 +66,10 @@ public class AppConfig {
 		int dbType = ConfigManager.getInstance().getInt(AppConstant.Keys.DB_TYPE);
 		if(dbType == AppConstant.DBType.HIBERNATE)
 			return new HibernateTransactionManager(sessionFactory().getObject());
-		else
+		else if(dbType == AppConstant.DBType.MYSQL)
 			return new DataSourceTransactionManager(dataSource());
+		else
+			return null;
 	}
 	
 	@Bean
