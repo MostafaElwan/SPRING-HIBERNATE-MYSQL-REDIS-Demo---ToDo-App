@@ -57,9 +57,6 @@ public class RedisUserDAOImpl extends AbstractRedisDAO<User> implements UserDAO 
 			u.setId(userId);
 			Map<String, String> props = BeanUtilsBean.getInstance().describe(u);
 			props.remove("todoList");
-			props.remove("uniqueId");
-			props.remove("salt");
-			
 			Transaction t = j.multi();
 			t.set(String.format("%s:%s", u.getUsername(), u.getPassword()), String.valueOf(userId));
 			t.hmset(String.format("USER:%s", userId), props);
