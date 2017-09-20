@@ -1,4 +1,5 @@
 # TODO-DEMO
+### [ SPRING - HIBERNATE - MYSQL - REDIS ]
 
 This repository contains a TODO application that demonistrats the usage of spring, Hibernate on MySQL database and REDIS database.
 
@@ -6,7 +7,7 @@ In this demo, I try to focus on not only how to use, but also the core features 
 
 ## 1. Design Patterns
 
-In this demo, I have used the following patterns:
+In this demo, I have followed the following patterns:
 
 #### 1.1. Delegate Pattern
 
